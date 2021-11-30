@@ -1,0 +1,173 @@
+
+import sys
+from threading import Thread
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSignal
+from whenconnect import when_connect,when_disconnect
+import ConnectionTracer
+from AndroidReverse import  Ui_AndroidReversePanel
+from AdbClient import AdbClient
+import time
+
+class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
+    updateAppInfoTextSignal = pyqtSignal(str)
+    isShellMode = False
+    def __init__(self,parent=None) -> None:
+        super(MainWindow,self).__init__(parent)
+        self.setupUi(self)
+        self.startGetDevices()
+        self.updateAppInfoTextSignal[str].connect(self.on_updateAppInfoTextSignal)
+        self.adbClient = AdbClient(hook=lambda x : self.updateAppInfoTextSignal.emit(x))
+        
+        
+        
+        
+    # 开始监听设备连接
+    def startGetDevices(self):
+        when_connect(device='any',do=self.deviceConnectEvent)
+        when_disconnect(device='any',do=self.deviceDisconnectEvent)
+
+    # 关闭监听设备连接
+    def stopGetDevices(self):
+        ConnectionTracer.stop()
+
+    # 连接事件
+    def deviceConnectEvent(self,device):
+        self.DeviceList.addItem(device)
+    
+    # 断开事件
+    def deviceDisconnectEvent(self,device):
+        self.exit_device()
+        index = self.DeviceList.findText(device)
+        self.DeviceList.removeItem(index)
+        self.DeviceList.setCurrentText(None)
+        self.DeviceList.setCurrentIndex(-1)
+        self.DeviceList.update()
+
+    @QtCore.pyqtSlot()
+    def on_StartDDMS_triggered(self):
+        # 启动DDMS
+        print('on_StartDDMS_triggered')
+
+    @QtCore.pyqtSlot()
+    def on_SettingDDMS_triggered(self):
+        # 配置DDMS路径
+        print('on_SettingDDMS_triggered')
+
+        
+    @QtCore.pyqtSlot()
+    def on_StartIDA_triggered(self):
+        # 启动IDA
+        print('on_StartIDA_triggered')
+
+    @QtCore.pyqtSlot()
+    def on_StartIDAServer_triggered(self):
+        # 启动IDA服务，手机里的服务
+        print('on_StartIDAServer_triggered')
+
+    @QtCore.pyqtSlot()
+    def on_SettingIDAPath_triggered(self):
+        # 配置IDA路径
+        print('on_SettingIDAPath_triggered')
+
+    @QtCore.pyqtSlot()
+    def on_SettingIDAServer_triggered(self):
+        # 启动IDA服务，手机里的服务
+        print('on_SettingIDAServer_triggered')
+
+
+
+    @QtCore.pyqtSlot()
+    def on_StartFridaServer_triggered(self):
+        # 启动fridaserver
+        print('on_StartFridaServer_triggered')
+
+    @QtCore.pyqtSlot()
+    def on_SettingFridaScript_triggered(self):
+        # 配置运行脚本
+        print('on_SettingFridaScript_triggered')
+
+    @QtCore.pyqtSlot(str)
+    def on_DeviceList_currentTextChanged(self,device):
+        # 如果是shell模式请先断开
+        self.exit_device()
+        # 选择设备，这个得起个线程去监听
+        self.AppInfoText.append('选择设备:'+device)
+        self.isShellMode = True
+        self.adbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
+        self.adbClient.execCmd("shell:",ifClose=False)
+        # 设置按钮可以点击
+
+
+    @QtCore.pyqtSlot()
+    def on_GetAppInfo_clicked(self):
+        if self.DeviceList.currentText():
+            self.adbClient.execCmd("dumpsys activity activities",ifClose=False,isShell=True)
+        else:
+            self.AppInfoText.append('请选择设备')
+        
+    @QtCore.pyqtSlot()
+    def on_StartDebug_clicked(self):
+        if self.ActivityInput.text():
+            self.adbClient.execCmd("am start -D -n "+self.ActivityInput.text(),ifClose=False,isShell=True)
+        else:
+            self.AppInfoText.append('请输入要调试的页面')
+
+    @QtCore.pyqtSlot()
+    def on_AdbForward_clicked(self):
+        if self.DeviceList.currentText() and self.LocalPort.text() and self.RemotePort.text():
+            adbClient = AdbClient(hook=lambda x : self.updateAppInfoTextSignal.emit(x))
+            adbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
+            adbClient.execCmd("host:forward:tcp:%s;tcp:%s"%(self.LocalPort.text(),self.RemotePort.text()),ifClose=False)
+            def recvThenClose():
+                time.sleep(5)
+                adbClient.close()
+            Thread(target=recvThenClose).start()
+        else:
+            self.AppInfoText.append('请连接手机并填写本地端口和手机端口')
+
+    
+    @QtCore.pyqtSlot()
+    def on_AppInfoText_listforward(self):
+        adbClient = AdbClient(hook=lambda x : self.updateAppInfoTextSignal.emit(x))
+        adbClient.execCmd("host:list-forward",ifClose=False)
+        def recvThenClose():
+            time.sleep(3)
+            adbClient.close()
+        Thread(target=recvThenClose).start()
+
+    
+
+    @QtCore.pyqtSlot()
+    def on_CommandInput_returnPressed(self):
+        if self.CommandInput.text() and self.isShellMode:
+            self.adbClient.execCmd(self.CommandInput.text(),ifClose=False,isShell=True)
+        if self.CommandInput.text() == 'exit':
+            self.exit_device()
+            self.DeviceList.setCurrentIndex(-1)
+            self.DeviceList.setCurrentText(None)
+            self.DeviceList.update()
+        self.CommandInput.setText("")
+
+
+    def on_updateAppInfoTextSignal(self,text:str):
+        if text:
+            self.AppInfoText.append(text)
+
+    def exit_device(self):
+        if self.isShellMode:
+            self.adbClient.execCmd("exit",isShell=True)
+            self.adbClient.close()
+            self.isShellMode = False
+
+    # 关闭主窗体后的事件
+    def closeEvent(self,event):
+        self.stopGetDevices()
+        self.adbClient.close()
+        event.accept()
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    mainWindow = MainWindow()
+    mainWindow.show()
+    sys.exit(app.exec_())

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AndroidReversePanel</class>
+ <widget class="QMainWindow" name="AndroidReversePanel">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>745</width>
+    <height>494</height>
+   </rect>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
+   <string>AndroidKnife</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>pic/sword.png</normaloff>pic/sword.png</iconset>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <widget class="QWidget" name="PanelLayout">
+   <layout class="QVBoxLayout" name="PanelLayoutVerticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="DeviceSelect">
+      <item>
+       <widget class="QComboBox" name="DeviceList">
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <property name="currentText">
+         <string/>
+        </property>
+        <property name="currentIndex">
+         <number>-1</number>
+        </property>
+        <property name="placeholderText">
+         <string>无连接设备</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="ServersSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="PanelTabs">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="AndroidTab">
+       <attribute name="title">
+        <string>Android</string>
+       </attribute>
+       <layout class="QGridLayout" name="AndroidTabGridLayout">
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="ActivityInput">
+          <property name="placeholderText">
+           <string>Debug Activity eg:package/.Activity</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <layout class="QHBoxLayout" name="InfoButtons">
+          <item>
+           <widget class="QPushButton" name="GetAppInfo">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>获取当前activity</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>pic/activity.png</normaloff>pic/activity.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="StartDebug">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>启动调试</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>pic/debug.png</normaloff>pic/debug.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="AndroidTabSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="LocalPort">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="maxLength">
+             <number>100</number>
+            </property>
+            <property name="placeholderText">
+             <string>本地端口</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="RemotePort">
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="maxLength">
+             <number>100</number>
+            </property>
+            <property name="placeholderText">
+             <string>手机端口</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="AdbForward">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>端口转发</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>pic/forward.png</normaloff>pic/forward.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="5" column="1">
+         <widget class="AndroidTextEdit" name="AppInfoText">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::DefaultContextMenu</enum>
+          </property>
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="statusTip">
+           <string/>
+          </property>
+          <property name="whatsThis">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="ShellCommandLineEdit" name="CommandInput">
+          <property name="placeholderText">
+           <string>ShellCommand</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+       <zorder>ActivityInput</zorder>
+       <zorder>CommandInput</zorder>
+       <zorder>AppInfoText</zorder>
+      </widget>
+      <widget class="QWidget" name="FridaTab">
+       <attribute name="title">
+        <string>Frida</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>745</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>设置</string>
+    </property>
+    <widget class="QMenu" name="menuDDMS">
+     <property name="title">
+      <string>DDMS设置</string>
+     </property>
+     <addaction name="StartDDMS"/>
+     <addaction name="separator"/>
+     <addaction name="SettingDDMS"/>
+    </widget>
+    <widget class="QMenu" name="menuIDA">
+     <property name="title">
+      <string>IDA设置</string>
+     </property>
+     <addaction name="StartIDA"/>
+     <addaction name="StartIDAServer"/>
+     <addaction name="separator"/>
+     <addaction name="SettingIDAPath"/>
+     <addaction name="SettingIDAServer"/>
+    </widget>
+    <widget class="QMenu" name="menuFrida">
+     <property name="title">
+      <string>Frida设置</string>
+     </property>
+     <addaction name="StartFridaServer"/>
+     <addaction name="separator"/>
+     <addaction name="SettingFridaScript"/>
+    </widget>
+    <addaction name="menuDDMS"/>
+    <addaction name="menuIDA"/>
+    <addaction name="menuFrida"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <action name="SettingDDMS">
+   <property name="text">
+    <string>配置路径</string>
+   </property>
+  </action>
+  <action name="StartDDMS">
+   <property name="text">
+    <string>启动</string>
+   </property>
+  </action>
+  <action name="SettingIDAPath">
+   <property name="text">
+    <string>配置程序路径</string>
+   </property>
+  </action>
+  <action name="StartIDA">
+   <property name="text">
+    <string>启动IDA</string>
+   </property>
+  </action>
+  <action name="SettingFridaScript">
+   <property name="text">
+    <string>配置启动脚本</string>
+   </property>
+  </action>
+  <action name="SettingIDAServer">
+   <property name="text">
+    <string>配置启动服务</string>
+   </property>
+  </action>
+  <action name="StartIDAServer">
+   <property name="text">
+    <string>启动IDAServer</string>
+   </property>
+  </action>
+  <action name="StartFridaServer">
+   <property name="text">
+    <string>启动FridaServer</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ShellCommandLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>ShellCommandLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AndroidTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>AndroidTextEdit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
