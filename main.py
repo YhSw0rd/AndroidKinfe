@@ -1,13 +1,16 @@
-
 import sys
 from threading import Thread
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore,  QtWidgets
 from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtGui import QTextCursor
 from whenconnect import when_connect,when_disconnect
 import ConnectionTracer
 from AndroidReverse import  Ui_AndroidReversePanel
 from AdbClient import AdbClient
+from Stream import Stream
 import time
+
+
 
 class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     updateAppInfoTextSignal = pyqtSignal(str)
@@ -18,9 +21,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.startGetDevices()
         self.updateAppInfoTextSignal[str].connect(self.on_updateAppInfoTextSignal)
         self.adbClient = AdbClient(hook=lambda x : self.updateAppInfoTextSignal.emit(x))
+        sys.stdout = Stream(pipe=self.on_updateAppInfoTextSignal)
         
-        
-        
+     
         
     # 开始监听设备连接
     def startGetDevices(self):
@@ -91,12 +94,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     def on_DeviceList_currentTextChanged(self,device):
         # 如果是shell模式请先断开
         self.exit_device()
-        # 选择设备，这个得起个线程去监听
-        self.AppInfoText.append('选择设备:'+device)
-        self.isShellMode = True
-        self.adbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
-        self.adbClient.execCmd("shell:",ifClose=False)
-        # 设置按钮可以点击
+        if device:
+            # 选择设备，这个得起个线程去监听
+            self.AppInfoText.append('选择设备:'+device)
+            self.isShellMode = True
+            self.adbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
+            self.adbClient.execCmd("shell:",ifClose=False)
 
 
     @QtCore.pyqtSlot()
@@ -142,6 +145,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     def on_CommandInput_returnPressed(self):
         if self.CommandInput.text() and self.isShellMode:
             self.adbClient.execCmd(self.CommandInput.text(),ifClose=False,isShell=True)
+        else:
+            self.AppInfoText.append("输入内容为空或者没选设备")
         if self.CommandInput.text() == 'exit':
             self.exit_device()
             self.DeviceList.setCurrentIndex(-1)
@@ -153,6 +158,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     def on_updateAppInfoTextSignal(self,text:str):
         if text:
             self.AppInfoText.append(text)
+            # cursor = self.AppInfoText.textCursor()
+            # cursor.movePosition(QTextCursor.End)
+            # cursor.insertText(text)
+            # self.AppInfoText.setTextCursor(cursor)
+            # self.AppInfoText.ensureCursorVisible()
 
     def exit_device(self):
         if self.isShellMode:
@@ -162,6 +172,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
 
     # 关闭主窗体后的事件
     def closeEvent(self,event):
+        sys.stdout = sys.__stdout__
         self.stopGetDevices()
         self.adbClient.close()
         event.accept()

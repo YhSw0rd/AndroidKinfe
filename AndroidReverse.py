@@ -159,7 +159,7 @@ class Ui_AndroidReversePanel(object):
 
     def retranslateUi(self, AndroidReversePanel):
         _translate = QtCore.QCoreApplication.translate
-        AndroidReversePanel.setWindowTitle(_translate("AndroidReversePanel", "AndroidKnife"))
+        AndroidReversePanel.setWindowTitle(_translate("AndroidReversePanel", "Inteaf"))
         self.DeviceList.setPlaceholderText(_translate("AndroidReversePanel", "无连接设备"))
         self.ActivityInput.setPlaceholderText(_translate("AndroidReversePanel", "Debug Activity eg:package/.Activity"))
         self.GetAppInfo.setToolTip(_translate("AndroidReversePanel", "获取当前activity"))
