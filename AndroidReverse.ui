@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>745</width>
-    <height>494</height>
+    <width>812</width>
+    <height>538</height>
    </rect>
   </property>
   <property name="cursor">
@@ -261,10 +261,17 @@
         <item row="1" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QTextEdit" name="textEdit"/>
+           <widget class="QWebEngineView" name="FridaTextEdit" native="true">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="textEdit_2"/>
+           <widget class="QTextEdit" name="textEdit"/>
           </item>
          </layout>
         </item>
@@ -279,7 +286,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>745</width>
+     <width>812</width>
      <height>23</height>
     </rect>
    </property>
@@ -370,6 +377,12 @@
    <class>AndroidTextEdit</class>
    <extends>QTextEdit</extends>
    <header>AndroidTextEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header>QWebEngineView.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

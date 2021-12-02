@@ -22,7 +22,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.updateAppInfoTextSignal[str].connect(self.on_updateAppInfoTextSignal)
         self.adbClient = AdbClient(hook=lambda x : self.updateAppInfoTextSignal.emit(x))
         sys.stdout = Stream(pipe=self.on_updateAppInfoTextSignal)
-        
+        self.FridaTextEdit.load(QtCore.QUrl( QtCore.QFileInfo("D:/pyqt/monaco-editor-demos/index.html").absoluteFilePath() ))
      
         
     # 开始监听设备连接
