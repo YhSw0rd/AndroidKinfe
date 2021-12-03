@@ -10,6 +10,8 @@ from AdbClient import AdbClient
 from Stream import Stream
 import time
 
+from PyQt5.QtWebChannel import QWebChannel
+
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
@@ -19,11 +21,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         super(MainWindow,self).__init__(parent)
         self.setupUi(self)
         self.startGetDevices()
+        # 设置文本更新槽
         self.updateAppInfoTextSignal[str].connect(self.on_updateAppInfoTextSignal)
+        # 如果有接收就更新到文本编辑框
         self.adbClient = AdbClient(hook=lambda x : self.updateAppInfoTextSignal.emit(x))
+
+        # 更改标准输出到文本编辑框
         sys.stdout = Stream(pipe=self.on_updateAppInfoTextSignal)
-        self.FridaTextEdit.load(QtCore.QUrl( QtCore.QFileInfo("D:/pyqt/monaco-editor-demos/index.html").absoluteFilePath() ))
-     
+        # 打开本地frida编辑页面，这个用monaco editor实现的，设置qwebchannel来接收页面加载完成信息，加载完成后读取fridagum.ts文件发送给页面，增加提示
+        self.FridaTextEdit.load( QtCore.QUrl( QtCore.QFileInfo("./fridapage/index.html").absoluteFilePath() ))
+        
+      
+
         
     # 开始监听设备连接
     def startGetDevices(self):
@@ -155,14 +164,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.CommandInput.setText("")
 
 
+    # @QtCore.pyqtSlot()
+    # def on_pushButton_clicked(self):
+    #     firdaGumTsFile = open('./fridapage/node_modules/@types/frida-gum/frida-gum.ts','r',encoding="UTF-8")
+    #     self.FridaTextEdit.page().runJavaScript('addProgramTip(`%s`);'%(''.join(firdaGumTsFile.readlines()))) 
+
+
     def on_updateAppInfoTextSignal(self,text:str):
         if text:
             self.AppInfoText.append(text)
-            # cursor = self.AppInfoText.textCursor()
-            # cursor.movePosition(QTextCursor.End)
-            # cursor.insertText(text)
-            # self.AppInfoText.setTextCursor(cursor)
-            # self.AppInfoText.ensureCursorVisible()
 
     def exit_device(self):
         if self.isShellMode:
@@ -182,3 +192,4 @@ if __name__ == "__main__":
     mainWindow = MainWindow()
     mainWindow.show()
     sys.exit(app.exec_())
+    

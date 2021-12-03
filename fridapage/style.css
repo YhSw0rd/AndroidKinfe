@@ -1,0 +1,13 @@
+.container {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    right: 0;
+
+    margin: 0 auto;
+    display: block;
+
+    transition: 0.2s;
+    overflow: hidden;
+    z-index: 0;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script>
+        function test(){
+            alert(123)
+        }
+        function addProgramTip(content){
+            alert(content)
+            monaco.languages.typescript.typescriptDefaults.addExtraLib(content, 'frida-gum');
+        }
+    </script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
+    <script src="./app.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+
+</html>
