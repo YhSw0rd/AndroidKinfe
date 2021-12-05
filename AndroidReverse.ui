@@ -41,7 +41,7 @@
         <property name="currentIndex">
          <number>-1</number>
         </property>
-        <property name="placeholderText">
+        <property name="placeholderText" stdset="0">
          <string>无连接设备</string>
         </property>
        </widget>
@@ -66,7 +66,7 @@
       <property name="currentIndex">
        <number>1</number>
       </property>
-      <widget class="QWidget" name="AndroidTab">
+      <widget class="ConsoleTab" name="AndroidTab">
        <attribute name="title">
         <string>Android</string>
        </attribute>
@@ -218,7 +218,7 @@
        <zorder>CommandInput</zorder>
        <zorder>AppInfoText</zorder>
       </widget>
-      <widget class="QWidget" name="FridaTab">
+      <widget class="ConsoleTab" name="FridaTab">
        <attribute name="title">
         <string>Frida</string>
        </attribute>
@@ -261,7 +261,7 @@
         <item row="1" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QWebEngineView" name="FridaTextEdit" native="true">
+           <widget class="QWebEngineView" name="FridaEditPage" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -271,7 +271,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="textEdit"/>
+           <widget class="QTextEdit" name="FridaConsole"/>
           </item>
          </layout>
         </item>
@@ -287,7 +287,7 @@
      <x>0</x>
      <y>0</y>
      <width>812</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -371,17 +371,23 @@
   <customwidget>
    <class>ShellCommandLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>ShellCommandLineEdit.h</header>
+   <header>widget/ShellCommandLineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>AndroidTextEdit</class>
    <extends>QTextEdit</extends>
-   <header>AndroidTextEdit.h</header>
+   <header>widget/AndroidTextEdit.h</header>
   </customwidget>
   <customwidget>
    <class>QWebEngineView</class>
    <extends>QWidget</extends>
    <header>QWebEngineView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ConsoleTab</class>
+   <extends>QWidget</extends>
+   <header>widget.ConsoleTab.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

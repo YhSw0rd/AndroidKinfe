@@ -21,6 +21,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         super(MainWindow,self).__init__(parent)
         self.setupUi(self)
         self.startGetDevices()
+        # 设置tab的console
+        self.AndroidTab.setConsole(self.AppInfoText)
+        self.FridaTab.setConsole(self.FridaConsole)
         # 设置文本更新槽
         self.updateAppInfoTextSignal[str].connect(self.on_updateAppInfoTextSignal)
         # 如果有接收就更新到文本编辑框
@@ -29,11 +32,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         # 更改标准输出到文本编辑框
         sys.stdout = Stream(pipe=self.on_updateAppInfoTextSignal)
         # 打开本地frida编辑页面，这个用monaco editor实现的，设置qwebchannel来接收页面加载完成信息，加载完成后读取fridagum.ts文件发送给页面，增加提示
-        self.FridaTextEdit.load( QtCore.QUrl( QtCore.QFileInfo("./fridapage/index.html").absoluteFilePath() ))
+        self.FridaEditPage.load( QtCore.QUrl( QtCore.QFileInfo("./fridapage/index.html").absoluteFilePath() ))
         
         self.webchannel = QWebChannel()
         self.webchannel.registerObject('conmunicateChannel',self)
-        self.FridaTextEdit.page().setWebChannel(self.webchannel)
+        self.FridaEditPage.page().setWebChannel(self.webchannel)
 
     
     
@@ -169,20 +172,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
 
     @QtCore.pyqtSlot()
     def on_pushButton_clicked(self):
-        
-        self.FridaTextEdit.page().runJavaScript('getEditorContent();',lambda x:print(x)) 
+        self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda x:print(x)) 
 
     @QtCore.pyqtSlot()
     def onFridaPageLoaded(self):
         print('调用了winsdow的函数')
         firdaGumTsFile = open('./fridapage/node_modules/@types/frida-gum/frida-gum.ts','r',encoding="UTF-8")
-        self.FridaTextEdit.page().runJavaScript('addProgramTip(`%s`);'%(''.join(firdaGumTsFile.readlines()))) 
+        self.FridaEditPage.page().runJavaScript('addProgramTip(`%s`);'%(''.join(firdaGumTsFile.readlines()))) 
 
 
 
     def on_updateAppInfoTextSignal(self,text:str):
         if text:
-            self.AppInfoText.append(text)
+            self.PanelTabs.currentWidget().getConsole().append(text)
 
     def exit_device(self):
         if self.isShellMode:
