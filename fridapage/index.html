@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <script>
-        function test(){
-            alert(123)
-        }
-        function addProgramTip(content){
-            alert(content)
-            monaco.languages.typescript.typescriptDefaults.addExtraLib(content, 'frida-gum');
-        }
-    </script>
+    
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,9 +9,30 @@
     <script src="./node_modules/monaco-editor/min/vs/loader.js"></script>
     <script src="./app.js"></script>
     <link rel="stylesheet" href="./style.css">
+    <script src='qrc:/qtwebchannel/qwebchannel.js'></script>
+    
 </head>
 <body>
     <div id="root"></div>
 </body>
+<script>
+    function addProgramTip(content){
+        monaco.languages.typescript.typescriptDefaults.addExtraLib(content, 'frida-gum');
+    }
 
+    function getEditorContent(){
+        return window.fridaEditor.getValue();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(function(){
+            // 这里面的channel就是PyQt5传递过来的channel对象
+            new QWebChannel(qt.webChannelTransport, function (channel) {
+                // 从channel中获取到我们注册到channel中的conmunicateChannel类对象
+                channel.objects.conmunicateChannel.onFridaPageLoaded();
+            });
+
+        },5000)
+    });
+</script>
 </html>

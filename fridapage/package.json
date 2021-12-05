@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@types/frida-gum": "^17.2.0"
+    "@types/frida-gum": "^17.2.0",
+    "monaco-editor": "^0.30.1"
   }
 }
