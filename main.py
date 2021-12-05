@@ -114,6 +114,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
             self.AppInfoText.append('选择设备:'+device)
             self.isShellMode = True
             self.adbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
+            time.sleep(.1)
             self.adbClient.execCmd("shell:",ifClose=False)
 
 
@@ -171,12 +172,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
 
 
     @QtCore.pyqtSlot()
-    def on_pushButton_clicked(self):
+    def on_FridaStart_clicked(self):
         self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda x:print(x)) 
 
     @QtCore.pyqtSlot()
     def onFridaPageLoaded(self):
-        print('调用了winsdow的函数')
         firdaGumTsFile = open('./fridapage/node_modules/@types/frida-gum/frida-gum.ts','r',encoding="UTF-8")
         self.FridaEditPage.page().runJavaScript('addProgramTip(`%s`);'%(''.join(firdaGumTsFile.readlines()))) 
 

@@ -67,6 +67,10 @@
        <number>1</number>
       </property>
       <widget class="ConsoleTab" name="AndroidTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>pic/android.png</normaloff>pic/android.png</iconset>
+       </attribute>
        <attribute name="title">
         <string>Android</string>
        </attribute>
@@ -95,6 +99,12 @@
              <iconset>
               <normaloff>pic/activity.png</normaloff>pic/activity.png</iconset>
             </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
            </widget>
           </item>
           <item>
@@ -111,6 +121,12 @@
             <property name="icon">
              <iconset>
               <normaloff>pic/debug.png</normaloff>pic/debug.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -180,6 +196,12 @@
              <iconset>
               <normaloff>pic/forward.png</normaloff>pic/forward.png</iconset>
             </property>
+            <property name="iconSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
            </widget>
           </item>
          </layout>
@@ -219,6 +241,10 @@
        <zorder>AppInfoText</zorder>
       </widget>
       <widget class="ConsoleTab" name="FridaTab">
+       <attribute name="icon">
+        <iconset>
+         <normaloff>pic/tag-r.png</normaloff>pic/tag-r.png</iconset>
+       </attribute>
        <attribute name="title">
         <string>Frida</string>
        </attribute>
@@ -227,22 +253,58 @@
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="0">
-             <widget class="QPushButton" name="pushButton">
+            <item row="0" column="2">
+             <widget class="QRadioButton" name="FridaAttachWay">
               <property name="text">
-               <string>PushButton</string>
+               <string>Attach</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="FridaStart">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>pic/frida-start.png</normaloff>pic/frida-start.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="FridaDebug">
+              <property name="sizeIncrement">
+               <size>
+                <width>1</width>
+                <height>1</height>
+               </size>
+              </property>
               <property name="text">
-               <string>PushButton</string>
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>pic/frida-debug.png</normaloff>pic/frida-debug.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
               </property>
              </widget>
             </item>
-            <item row="0" column="2">
-             <spacer name="horizontalSpacer">
+            <item row="0" column="5">
+             <spacer name="FridaButtonSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -253,6 +315,29 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="0" column="3">
+             <widget class="QRadioButton" name="FridaSpawnWay">
+              <property name="text">
+               <string>Spawn</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="4">
+             <widget class="QLineEdit" name="lineEdit">
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="placeholderText">
+               <string>package</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
