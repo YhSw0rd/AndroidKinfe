@@ -3,6 +3,7 @@ from threading import Thread
 from PyQt5 import QtCore,  QtWidgets
 from PyQt5.QtCore import QObject, pyqtSignal
 from PyQt5.QtGui import QTextCursor
+from FridaClient import FridaClient
 from whenconnect import when_connect,when_disconnect
 import ConnectionTracer
 from AndroidReverse import  Ui_AndroidReversePanel
@@ -179,7 +180,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.FridaStart.setDisabled(True)
         self.FridaDebug.setDisabled(True)
         # 获取文本，执行frida
-        self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda x:print(x))
+        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp('',self.FridaPackageName.text())
+        self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda js_code: self.fridaClient.loadScript(js_code).exec())
+
+    
 
     # frida页面点击调试按钮
     @QtCore.pyqtSlot()
@@ -187,7 +191,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         # 开始和调试按钮失效
         self.FridaStart.setDisabled(True)
         self.FridaDebug.setDisabled(True)
-         # 获取文本，调试frida
+        # 获取文本，调试frida
+        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp('',self.FridaPackageName.text())
+        self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda js_code: self.fridaClient.loadScript(js_code).exec())
 
     # frida页面点击停止按钮
     @QtCore.pyqtSlot()
