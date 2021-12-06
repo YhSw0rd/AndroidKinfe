@@ -180,7 +180,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.FridaStart.setDisabled(True)
         self.FridaDebug.setDisabled(True)
         # 获取文本，执行frida
-        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp('',self.FridaPackageName.text())
+        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp(self.getFridaRunWay(),self.FridaPackageName.text())
         self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda js_code: self.fridaClient.loadScript(js_code).exec())
 
     
@@ -192,7 +192,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.FridaStart.setDisabled(True)
         self.FridaDebug.setDisabled(True)
         # 获取文本，调试frida
-        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp('',self.FridaPackageName.text())
+        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp(self.getFridaRunWay(),self.FridaPackageName.text())
         self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda js_code: self.fridaClient.loadScript(js_code).exec())
 
     # frida页面点击停止按钮
@@ -202,6 +202,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.FridaStart.setDisabled(False)
         self.FridaDebug.setDisabled(False)
         # 停止frida
+        self.fridaClient.exitApp()
 
     
 
@@ -212,7 +213,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.FridaEditPage.page().runJavaScript('addProgramTip(`%s`);'%(''.join(firdaGumTsFile.readlines()))) 
 
 
-
+    def getFridaRunWay(self):
+        type = ''
+        if self.FridaAttachWay.isChecked():
+            type = self.FridaAttachWay.text().lower()
+        if self.FridaSpawnWay.isChecked():
+            type = self.FridaSpawnWay.text().lower()
+        return type
 
 
 

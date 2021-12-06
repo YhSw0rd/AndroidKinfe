@@ -19,8 +19,17 @@ class FridaClient:
         return self
 
     def runApp(self,runAppWay,app_name):
-        func = getattr(self.device,runAppWay)
-        self.session = func(app_name)
+        func = getattr(self,runAppWay)
+        return func(app_name)
+
+    def attach(self,app_name):
+        self.session = self.device.attach(app_name)
+        return self
+    
+    def spawn(self,app_name):
+        pid = self.device.spawn(app_name)
+        self.session = self.device.attach(pid)
+        self.device.resume(pid)
         return self
 
     def loadScript(self,js_code):

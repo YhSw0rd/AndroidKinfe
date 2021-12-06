@@ -3,9 +3,9 @@ require(['vs/editor/editor.main'], function () {
 
     // 初始化变量
     var defaultCode = [
-        'function helloWorld() {',
-        '   console.log("Hello world!");',
-        '}'
+        'Java.perform(function(){',
+        '      console.log("succsess");',
+        '})'
     ].join('\n');
 	
     // 定义编辑器主题
