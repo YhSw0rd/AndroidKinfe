@@ -41,7 +41,7 @@
         <property name="currentIndex">
          <number>-1</number>
         </property>
-        <property name="placeholderText" stdset="0">
+        <property name="placeholderText">
          <string>无连接设备</string>
         </property>
        </widget>
@@ -63,8 +63,19 @@
     </item>
     <item>
      <widget class="QTabWidget" name="PanelTabs">
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	border:none;
+}</string>
+      </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
       </property>
       <widget class="ConsoleTab" name="AndroidTab">
        <attribute name="icon">
@@ -92,6 +103,9 @@
             <property name="toolTip">
              <string>获取当前activity</string>
             </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -114,6 +128,9 @@
             </property>
             <property name="toolTip">
              <string>启动调试</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>
@@ -157,6 +174,9 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">height:20px;</string>
+            </property>
             <property name="maxLength">
              <number>100</number>
             </property>
@@ -173,6 +193,9 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">height:20px;</string>
+            </property>
             <property name="maxLength">
              <number>100</number>
             </property>
@@ -188,6 +211,9 @@
             </property>
             <property name="toolTip">
              <string>端口转发</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
             </property>
             <property name="text">
              <string/>
@@ -250,27 +276,23 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QVBoxLayout" name="FridaTabPanelLayout">
           <item>
-           <layout class="QGridLayout" name="gridLayout_2">
+           <layout class="QGridLayout" name="FridaButtonsLayout">
             <item row="0" column="2">
-             <widget class="QRadioButton" name="FridaAttachWay">
-              <property name="text">
-               <string>Attach</string>
+             <widget class="QPushButton" name="FridaStop">
+              <property name="toolTip">
+               <string>Stop</string>
               </property>
-              <property name="checked">
-               <bool>false</bool>
+              <property name="styleSheet">
+               <string notr="true"/>
               </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QPushButton" name="FridaStart">
               <property name="text">
                <string/>
               </property>
               <property name="icon">
                <iconset>
-                <normaloff>pic/frida-start.png</normaloff>pic/frida-start.png</iconset>
+                <normaloff>pic/frida-stop.png</normaloff>pic/frida-stop.png</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -288,6 +310,12 @@
                 <height>1</height>
                </size>
               </property>
+              <property name="toolTip">
+               <string>Debug</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -303,7 +331,7 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="5">
+            <item row="0" column="6">
              <spacer name="FridaButtonSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -317,6 +345,56 @@
              </spacer>
             </item>
             <item row="0" column="3">
+             <widget class="QRadioButton" name="FridaAttachWay">
+              <property name="text">
+               <string>Attach</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="5">
+             <widget class="QLineEdit" name="FridaPackageName">
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">height:20px;
+width:80px;</string>
+              </property>
+              <property name="placeholderText">
+               <string>package</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="FridaStart">
+              <property name="toolTip">
+               <string>Start</string>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>pic/frida-start.png</normaloff>pic/frida-start.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="4">
              <widget class="QRadioButton" name="FridaSpawnWay">
               <property name="text">
                <string>Spawn</string>
@@ -326,25 +404,12 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="4">
-             <widget class="QLineEdit" name="lineEdit">
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="placeholderText">
-               <string>package</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
          </layout>
         </item>
         <item row="1" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout">
+         <layout class="QHBoxLayout" name="FridaEditContainer">
           <item>
            <widget class="QWebEngineView" name="FridaEditPage" native="true">
             <property name="sizePolicy">
@@ -353,10 +418,17 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="styleSheet">
+             <string notr="true">border:1px;border-color:gray;border-style:solid;</string>
+            </property>
            </widget>
           </item>
           <item>
-           <widget class="QTextEdit" name="FridaConsole"/>
+           <widget class="QTextEdit" name="FridaConsole">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -372,7 +444,7 @@
      <x>0</x>
      <y>0</y>
      <width>812</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -456,12 +528,12 @@
   <customwidget>
    <class>ShellCommandLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>widget/ShellCommandLineEdit.h</header>
+   <header>widget.ShellCommandLineEdit.h</header>
   </customwidget>
   <customwidget>
    <class>AndroidTextEdit</class>
    <extends>QTextEdit</extends>
-   <header>widget/AndroidTextEdit.h</header>
+   <header>widget.AndroidTextEdit.h</header>
   </customwidget>
   <customwidget>
    <class>QWebEngineView</class>

@@ -17,6 +17,8 @@ from PyQt5.QtWebChannel import QWebChannel
 class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     updateAppInfoTextSignal = pyqtSignal(str)
     isShellMode = False
+
+    fridaClient = None
     def __init__(self,parent=None) -> None:
         super(MainWindow,self).__init__(parent)
         self.setupUi(self)
@@ -169,16 +171,45 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
             self.DeviceList.setCurrentText(None)
             self.DeviceList.update()
         self.CommandInput.setText("")
-
-
+    
+    # firda页面点击启动按钮获取编辑器里的js文本
     @QtCore.pyqtSlot()
     def on_FridaStart_clicked(self):
-        self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda x:print(x)) 
+        # 开始和调试按钮失效
+        self.FridaStart.setDisabled(True)
+        self.FridaDebug.setDisabled(True)
+        # 获取文本，执行frida
+        self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda x:print(x))
 
+    # frida页面点击调试按钮
+    @QtCore.pyqtSlot()
+    def on_FridaDebug_clicked(self):
+        # 开始和调试按钮失效
+        self.FridaStart.setDisabled(True)
+        self.FridaDebug.setDisabled(True)
+         # 获取文本，调试frida
+
+    # frida页面点击停止按钮
+    @QtCore.pyqtSlot()
+    def on_FridaStop_clicked(self):
+        # 开始和调试按钮有效
+        self.FridaStart.setDisabled(False)
+        self.FridaDebug.setDisabled(False)
+        # 停止frida
+
+    
+
+    # frida页面加载完成，添加提示frida提示
     @QtCore.pyqtSlot()
     def onFridaPageLoaded(self):
         firdaGumTsFile = open('./fridapage/node_modules/@types/frida-gum/frida-gum.ts','r',encoding="UTF-8")
         self.FridaEditPage.page().runJavaScript('addProgramTip(`%s`);'%(''.join(firdaGumTsFile.readlines()))) 
+
+
+
+
+
+
 
 
 
