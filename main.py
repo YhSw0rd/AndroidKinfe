@@ -180,7 +180,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.FridaStart.setDisabled(True)
         self.FridaDebug.setDisabled(True)
         # 获取文本，执行frida
-        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp(self.getFridaRunWay(),self.FridaPackageName.text())
+        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp(self.getFridaRunWay(),self.FridaPackageList.currentText())
         self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda js_code: self.fridaClient.loadScript(js_code).exec())
 
     
@@ -192,7 +192,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
         self.FridaStart.setDisabled(True)
         self.FridaDebug.setDisabled(True)
         # 获取文本，调试frida
-        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp(self.getFridaRunWay(),self.FridaPackageName.text())
+        self.fridaClient = FridaClient().setDevice(self.DeviceList.currentText()).runApp(self.getFridaRunWay(),self.FridaPackageList.currentText())
         self.FridaEditPage.page().runJavaScript('getEditorContent();',lambda js_code: self.fridaClient.loadScript(js_code).exec())
 
     # frida页面点击停止按钮
@@ -211,6 +211,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     def onFridaPageLoaded(self):
         firdaGumTsFile = open('./fridapage/node_modules/@types/frida-gum/frida-gum.ts','r',encoding="UTF-8")
         self.FridaEditPage.page().runJavaScript('addProgramTip(`%s`);'%(''.join(firdaGumTsFile.readlines()))) 
+
+    @QtCore.pyqtSlot(QtCore.QEvent)
+    def on_FridaPackageList_focusIn(self,event):
+        packagelist = ''
+        adbClient = AdbClient(hook=lambda x : packagelist+x)
+        adbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
+        time.sleep(.1)
+        adbClient.execCmd("shell:pm list packages",ifClose=False)
+        def recvThenClose():
+            time.sleep(5)
+            adbClient.close()
+            print("包列表："+packagelist)
+        Thread(target=recvThenClose).start()
 
 
     def getFridaRunWay(self):

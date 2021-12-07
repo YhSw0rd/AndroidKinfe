@@ -32,6 +32,9 @@
      <layout class="QHBoxLayout" name="DeviceSelect">
       <item>
        <widget class="QComboBox" name="DeviceList">
+        <property name="styleSheet">
+         <string notr="true">height:20px;</string>
+        </property>
         <property name="editable">
          <bool>false</bool>
         </property>
@@ -41,7 +44,7 @@
         <property name="currentIndex">
          <number>-1</number>
         </property>
-        <property name="placeholderText" stdset="0">
+        <property name="placeholderText">
          <string>无连接设备</string>
         </property>
        </widget>
@@ -355,7 +358,7 @@
              </widget>
             </item>
             <item row="0" column="5">
-             <widget class="QLineEdit" name="FridaPackageName">
+             <widget class="FridaPackageListComboBox" name="FridaPackageList">
               <property name="maximumSize">
                <size>
                 <width>150</width>
@@ -444,7 +447,7 @@ width:80px;</string>
      <x>0</x>
      <y>0</y>
      <width>812</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -546,6 +549,11 @@ width:80px;</string>
    <extends>QWidget</extends>
    <header>widget.ConsoleTab.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FridaPackageListComboBox</class>
+   <extends>QComboBox</extends>
+   <header>widget.FridaPackageListComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

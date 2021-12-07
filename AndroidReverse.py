@@ -28,6 +28,7 @@ class Ui_AndroidReversePanel(object):
         self.DeviceSelect = QtWidgets.QHBoxLayout()
         self.DeviceSelect.setObjectName("DeviceSelect")
         self.DeviceList = QtWidgets.QComboBox(self.PanelLayout)
+        self.DeviceList.setStyleSheet("height:20px;")
         self.DeviceList.setEditable(False)
         self.DeviceList.setCurrentText("")
         self.DeviceList.setObjectName("DeviceList")
@@ -150,12 +151,12 @@ class Ui_AndroidReversePanel(object):
         self.FridaAttachWay.setChecked(False)
         self.FridaAttachWay.setObjectName("FridaAttachWay")
         self.FridaButtonsLayout.addWidget(self.FridaAttachWay, 0, 3, 1, 1)
-        self.FridaPackageName = QtWidgets.QLineEdit(self.FridaTab)
-        self.FridaPackageName.setMaximumSize(QtCore.QSize(150, 16777215))
-        self.FridaPackageName.setStyleSheet("height:20px;\n"
+        self.FridaPackageList = FridaPackageListComboBox(self.FridaTab)
+        self.FridaPackageList.setMaximumSize(QtCore.QSize(150, 16777215))
+        self.FridaPackageList.setStyleSheet("height:20px;\n"
 "width:80px;")
-        self.FridaPackageName.setObjectName("FridaPackageName")
-        self.FridaButtonsLayout.addWidget(self.FridaPackageName, 0, 5, 1, 1)
+        self.FridaPackageList.setObjectName("FridaPackageList")
+        self.FridaButtonsLayout.addWidget(self.FridaPackageList, 0, 5, 1, 1)
         self.FridaStart = QtWidgets.QPushButton(self.FridaTab)
         self.FridaStart.setStyleSheet("")
         self.FridaStart.setText("")
@@ -238,7 +239,7 @@ class Ui_AndroidReversePanel(object):
 
         self.retranslateUi(AndroidReversePanel)
         self.DeviceList.setCurrentIndex(-1)
-        self.PanelTabs.setCurrentIndex(0)
+        self.PanelTabs.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(AndroidReversePanel)
 
     def retranslateUi(self, AndroidReversePanel):
@@ -257,7 +258,7 @@ class Ui_AndroidReversePanel(object):
         self.FridaStop.setToolTip(_translate("AndroidReversePanel", "Stop"))
         self.FridaDebug.setToolTip(_translate("AndroidReversePanel", "Debug"))
         self.FridaAttachWay.setText(_translate("AndroidReversePanel", "Attach"))
-        self.FridaPackageName.setPlaceholderText(_translate("AndroidReversePanel", "package"))
+        self.FridaPackageList.setPlaceholderText(_translate("AndroidReversePanel", "package"))
         self.FridaStart.setToolTip(_translate("AndroidReversePanel", "Start"))
         self.FridaSpawnWay.setText(_translate("AndroidReversePanel", "Spawn"))
         self.PanelTabs.setTabText(self.PanelTabs.indexOf(self.FridaTab), _translate("AndroidReversePanel", "Frida"))
@@ -276,4 +277,5 @@ class Ui_AndroidReversePanel(object):
 from PyQt5 import QtWebEngineWidgets
 from widget.AndroidTextEdit import AndroidTextEdit
 from widget.ConsoleTab import ConsoleTab
+from widget.FridaPackageListComboBox import FridaPackageListComboBox
 from widget.ShellCommandLineEdit import ShellCommandLineEdit
