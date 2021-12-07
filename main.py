@@ -12,6 +12,7 @@ from Stream import Stream
 import time
 
 from PyQt5.QtWebChannel import QWebChannel
+import re
 
 
 
@@ -214,15 +215,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
 
     @QtCore.pyqtSlot(QtCore.QEvent)
     def on_FridaPackageList_focusIn(self,event):
-        packagelist = ''
-        adbClient = AdbClient(hook=lambda x : packagelist+x)
-        adbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
-        time.sleep(.1)
-        adbClient.execCmd("shell:pm list packages",ifClose=False)
+        packagelist = []
+        pmListAdbClient = AdbClient(hook=lambda x : packagelist.append(x))
+        pmListAdbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
+        time.sleep(.5)
+        pmListAdbClient.execCmd("shell:pm list packages",ifClose=False)
         def recvThenClose():
-            time.sleep(5)
-            adbClient.close()
-            print("包列表："+packagelist)
+            time.sleep(1)
+            pmListAdbClient.close()
+            packagestr = ''.join(packagelist).replace('\n',' ')
+            result = re.findall(r'package:(\S+)', packagestr)
+            self.FridaPackageList.clear()
+            self.FridaPackageList.addItems(result)
         Thread(target=recvThenClose).start()
 
 

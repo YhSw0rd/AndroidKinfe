@@ -44,7 +44,7 @@
         <property name="currentIndex">
          <number>-1</number>
         </property>
-        <property name="placeholderText">
+        <property name="placeholderText" stdset="0">
          <string>无连接设备</string>
         </property>
        </widget>
@@ -361,15 +361,15 @@
              <widget class="FridaPackageListComboBox" name="FridaPackageList">
               <property name="maximumSize">
                <size>
-                <width>150</width>
+                <width>300</width>
                 <height>16777215</height>
                </size>
               </property>
               <property name="styleSheet">
                <string notr="true">height:20px;
-width:80px;</string>
+width:200px;</string>
               </property>
-              <property name="placeholderText">
+              <property name="placeholderText" stdset="0">
                <string>package</string>
               </property>
              </widget>
@@ -447,7 +447,7 @@ width:80px;</string>
      <x>0</x>
      <y>0</y>
      <width>812</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
