@@ -215,6 +215,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
 
     @QtCore.pyqtSlot(QtCore.QEvent)
     def on_FridaPackageList_focusIn(self,event):
+        if self.FridaPackageList.count() != 0:
+            return
         packagelist = []
         pmListAdbClient = AdbClient(hook=lambda x : packagelist.append(x))
         pmListAdbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
@@ -226,6 +228,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
             packagestr = ''.join(packagelist).replace('\n',' ')
             result = re.findall(r'package:(\S+)', packagestr)
             self.FridaPackageList.clear()
+            result.sort()
             self.FridaPackageList.addItems(result)
         Thread(target=recvThenClose).start()
 
