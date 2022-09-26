@@ -14,7 +14,8 @@ import time
 from PyQt5.QtWebChannel import QWebChannel
 import re
 
-
+# 清除无用信息
+QtCore.qInstallMessageHandler(lambda *args: None)
 
 class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     updateAppInfoTextSignal = pyqtSignal(str)
