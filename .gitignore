@@ -1,2 +1,2 @@
 *.pyc
-fridapage/node_modules/monaco-editor/*
+fridapage/node_modules/monaco-*/*
