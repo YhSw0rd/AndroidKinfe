@@ -211,7 +211,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     # frida页面加载完成，添加提示frida提示
     @QtCore.pyqtSlot()
     def onFridaPageLoaded(self):
-        firdaGumTsFile = open('./fridapage/node_modules/@types/frida-gum/frida-gum.ts','r',encoding="UTF-8")
+        firdaGumTsFile = open('./fridapage/@types/frida-gum/frida-gum.ts','r',encoding="UTF-8")
         self.FridaEditPage.page().runJavaScript('addProgramTip(`%s`);'%(''.join(firdaGumTsFile.readlines()))) 
 
     @QtCore.pyqtSlot(QtCore.QEvent)
