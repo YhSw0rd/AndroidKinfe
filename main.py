@@ -218,6 +218,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_AndroidReversePanel):
     def on_FridaPackageList_focusIn(self,event):
         if self.FridaPackageList.count() != 0:
             return
+        if not self.DeviceList.currentText():
+            print("请选择设备")
+            return
         packagelist = []
         pmListAdbClient = AdbClient(hook=lambda x : packagelist.append(x))
         pmListAdbClient.execCmd("host:transport:"+self.DeviceList.currentText(),ifClose=False)
